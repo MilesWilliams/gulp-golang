@@ -1,20 +1,19 @@
 # gulp-go
 
-[![Build Status](https://travis-ci.org/nowk/gulp-go.svg?branch=master)](https://travis-ci.org/nowk/gulp-go)
-[![David DM](https://david-dm.org/nowk/gulp-go.png)](https://david-dm.org/nowk/gulp-go)
+A gulp wrapper for golang commands. Completely inspired by gulp-go.
+This aims to let users have better control of their golang environment with the build system.
+Because `go run` does not solve all problems.
 
-A complete wrapper for golang commands for gulp. Completely inspired by gulp-go.
-This aims to let users have better control of their build system on the golang environment .
 
 
 ## Goals
 
-    Ability to build a binary
-
+    Ability to build a binary, and run it with gulp. (This allows us to easily package an app with docker.)
+    
 
 ## Install
 
-    npm install gulp-golang
+    npm install gulp-golang *not yet
 
 ## Usage
 
@@ -23,12 +22,8 @@ This aims to let users have better control of their build system on the golang e
 
     var go;
 
-    gulp.task("go-run", function() {
+    gulp.task("run", function() {
       go = golang.run("main.go", ["--arg1", "value1"], {cwd: __dirname, stdio: 'inherit'});
-    });
-
-    gulp.task("build", function() {
-      golang.build("main.go","../kala", [], { cwd: __dirname  });
     });
 
     gulp.task("devs", ["go-run"], function() {
@@ -36,6 +31,19 @@ This aims to let users have better control of their build system on the golang e
         go.restart();
       });
     });
+
+    gulp.task("build", function() {
+      golang.build("main.go");
+    });
+
+    gulp.task('spawn', function(){
+      golang.spawn()
+    })
+
+    gulp.task('dev', function(callback){
+      sequence('build','spawn')(callback)
+    })
+
 
 ## License
 
