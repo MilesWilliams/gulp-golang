@@ -2,7 +2,7 @@ var pstree = require("ps-tree");
 var spawn  = require("child_process").spawn;
 var exec   = require("child_process").exec;
 
-var logPrefix = "[go-run]";
+var logPrefix = "[golang-run]";
 
 function log() {
   var args = Array.prototype.slice.call(arguments);
@@ -60,11 +60,15 @@ module.exports = {
   ps: function() {
     return ps;
   },
+  build: function(main,output, args, opts) {
+    var go = new GoBuild(main,output, args, opts);
+    return go.build();
+  },
   run: function(main, args, opts) {
     var go = new GoRun(main, args, opts);
     return go.run();
   },
-  GoRun: GoRun
+  GoRun: noop
 };
 
 // GoRun is the runner class for a single `go run ...` process
@@ -77,7 +81,19 @@ function GoRun(main, args, opts) {
   this.opts = opts || {};
 }
 
+
+function GoBuild(main,output, args, opts) {
+  this.main = main || "main.go";
+  if (typeof(this.main) == 'string') {
+    this.main = [this.main];
+  }
+  this.output = output
+  this.args = args || [];
+  this.opts = opts || {};
+}
+
 GoRun.prototype._spawn = function() {
+
   var args = Array.prototype.slice.call(arguments);
   log("starting process...");
 
@@ -94,8 +110,42 @@ var noop = function() {
   //
 };
 
+GoBuild.prototype.build = function() {
+
+  console.log(this.output)
+
+
+  var args = ["build"].concat("-o").concat(this.output).concat(this.main);
+  
+  args = args.concat(this.args, Array.prototype.slice.call(arguments));
+
+  console.log(args)
+  var proc = this.proc = spawn("go", args, this.opts);
+  var pid = proc.pid;
+  log( "build processs started with pid", "["+pid+"]");
+
+  if (proc.stdout) {
+    proc.stdout.on("data", this.opts.onStdout || noop);
+  }
+  if (proc.stderr) {
+    proc.stderr.on("data", this.opts.onStderr || noop);
+  }
+  // proc.on("close", this.opts.onClose || noop);
+  // proc.on("exit", this.opts.onExit || noop);
+
+  return this;
+};
+
+
+
 GoRun.prototype.run = function() {
+
+
   var args = ["run"].concat(this.main);
+  console.log(args)
+  console.log(this.proc)
+  console.log(Array.prototype.slice.call(arguments))
+  
   args = args.concat(this.args, Array.prototype.slice.call(arguments));
 
   var proc = this.proc = this._spawn.apply(this, args);
