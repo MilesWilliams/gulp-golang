@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:nowk/gulp-go.git"
+    "url": "git@github.com:cescoferraro/gulp-golang.git"
   },
   "keywords": [
     "Golang",
