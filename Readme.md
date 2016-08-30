@@ -20,23 +20,17 @@ Build a binary, either with `go build`or `go install` and run it with gulp.
     var gulp   = require("gulp");
     var golang = require("gulp-golang");
 
-    gulp.task("build", function () {
-      golang.build("main.go");
-    });
+    gulp.task('build', function () { golang.build('main.go', "sample") });
+    gulp.task('spawn', function () { golang.spawn() })
+    gulp.task('run', function (callback) { sequence('build', 'spawn')(callback) })
 
+    gulp.task('watch', function (callback) {
+      golang.livereload().listen()
+      gulp.start('run')
 
-    gulp.task('spawn', function () {
-      golang.spawn()
-    })
-
-
-    gulp.task('watch', (callback) => {
-        sequence('build', 'spawn')(callback)
-
-
-      watch('**/*.go', () => {
-        gulp.start('build')
-        golang.spawned().refresh()
+      watch('**/*.go', function () {
+        gulp.start('run')
+        golang.livereload().reload()
       });
     });
 
