@@ -1,7 +1,7 @@
 var log = require("./helper").log
 var addps = require("./helper").addps
-
 var spawn = require("child_process").spawn;
+
 module.exports = {
   GoRun: GoRun
 };

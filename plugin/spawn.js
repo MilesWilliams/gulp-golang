@@ -1,15 +1,25 @@
-
 var spawn = require("child_process").spawn;
 var path = require("path");
+var log = require("./helper").log
+var addps = require("./helper").addps
+var delps = require("./helper").addps
+var ps = require("./helper").ps
+var GoBuild = require("./build").GoBuild
+var pstree = require("ps-tree")
+var treeKill = require("tree-kill");
+
+var spawned
 
 module.exports = {
-  GoSpawn: GoSpawn
+  GoSpawn: GoSpawn,
+  spawned: function(){
+    return spawned
+  }
 };
 
 
-
 function GoSpawn(main, args, opts) {
-  this.main = main || "main.go";
+  this.main = main || "main";
   if (typeof (this.main) == 'string') {
     this.main = [this.main];
   }
@@ -41,6 +51,57 @@ GoSpawn.prototype.spawn = function () {
     process.stdout.write(data.toString());
   });
 
+  spawned = addps(pid,this)
+  return spawned;
+};
 
-  return this;
+
+GoSpawn.prototype.refresh = function () {
+  var pid = this.proc.pid;
+  log("[" + pid + "]", "restarting process...");
+
+  var self = this;
+  self.stop(function () {
+    self.spawn()
+  });
+};
+
+
+GoSpawn.prototype._stop = function (callback) {
+   if (!!!this.proc.pid) {
+    log("no pid:", "exit");
+
+    callback();
+    return;
+  }
+
+  var pid = this.proc.pid;
+  treeKill(pid, 'SIGKILL', function(err) {
+    if(err) {
+      log(err);
+	  callback();
+    } else {
+      log("["+pid+"]", "process stopped");
+      callback();
+    }
+  });
+
+};
+
+GoSpawn.prototype.stop = function (callback) {
+  if ("function" !== typeof callback) {
+    callback = noop;
+  }
+
+  var pid = this.proc.pid;
+  log("[" + pid + "]", "stopping process...");
+
+  var self = this;
+  var fn = function () {
+    delps(pid);
+
+    callback();
+  };
+
+  this._stop(fn);
 };

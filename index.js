@@ -1,6 +1,7 @@
 var build = require("./plugin/build")
 var run = require("./plugin/run")
 var spawn = require("./plugin/spawn")
+var ps = require("./plugin/helper").ps
 
 
 module.exports = {
@@ -21,6 +22,7 @@ module.exports = {
     var go = new spawn.GoSpawn(main, args, opts);
     return go.spawn();
   },
+  spawned: require("./plugin/spawn").spawned,
   run: function (main, args, opts) {
     var go = new run.GoRun(main, args, opts);
     return go.run();

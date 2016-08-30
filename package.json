@@ -23,7 +23,8 @@
   "devDependencies": {
     "chai": "^2.1.1",
     "gulp": "^3.8.11",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "tree-kill": "^1.1.0"
   },
   "dependencies": {
     "ps-tree": "0.0.3"

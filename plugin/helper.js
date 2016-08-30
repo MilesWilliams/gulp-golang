@@ -1,12 +1,6 @@
 var logPrefix = "[golang-run]";
 
-module.exports = {
-  log: log,
-  addps: addps
 
-
-
-}
 
 
 function log() {
@@ -20,14 +14,20 @@ function log() {
 var ps = {};
 
 function delps(pid) {
+  console.log(ps)
+  console.log(ps[pid])
+  console.log("sdfdsfdsf")
   delete ps[pid];
+
+  console.log(ps)
 }
 
 function addps(pid, go) {
   ps[pid] = go;
-
   return go;
 }
+
+
 
 // fshut provides a method to kill running processes started through GoRuns
 // This is not a general shutdown method, but a way to handle shutdowns when
@@ -57,3 +57,10 @@ process.on("uncaughtException", function (err) {
     process.exit(1);
   });
 });
+
+module.exports = {
+  log: log,
+  addps: addps,
+  delps: delps,
+  ps:ps
+}

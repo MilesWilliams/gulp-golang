@@ -6,6 +6,7 @@ var binarie
 
 module.exports = {
   GoBuild: GoBuild,
+  build: GoBuild.build,
   binarie: function () {
     return binarie || "main"
   }

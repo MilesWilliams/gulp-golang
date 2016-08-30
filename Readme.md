@@ -1,6 +1,6 @@
-# gulp-go
+# gulp-golang
 
-A gulp wrapper for golang commands. Completely inspired by gulp-go.
+A gulp wrapper for golang commands. Completely inspired by [gulp-go](www.google.com).
 This aims to let users have better control of their golang environment with the build system.
 Because `go run` does not solve all problems.
 
@@ -8,8 +8,8 @@ Because `go run` does not solve all problems.
 
 ## Goals
 
-    Ability to build a binary, and run it with gulp. (This allows us to easily package an app with docker.)
-    
+Build a binary, either with `go build`or `go install` and run it with gulp.
+(This allows us to easily package an app with docker.)
 
 ## Install
 
