@@ -1,27 +1,21 @@
-var path = require("path");
-var gulp = require("gulp");
-var sequence = require("gulp-sequence");
-var golang = require("../");
+var gulp = require('gulp');
+var sequence = require('gulp-sequence');
+var golang = require('../');
 var watch = require('gulp-watch');
 
 
-gulp.task("build", function () {
-  golang.build("main.go");
-});
+
+gulp.task('build', function () { golang.build('main.go',"../dist/dev/sample") });
+
+gulp.task('spawn', function () { golang.spawn() })
 
 
-gulp.task('spawn', function () {
-  golang.spawn()
-})
-
-
-gulp.task('watch', (callback) => {
+gulp.task('watch', function (callback)  {
+    golang.livereload().listen()
 		sequence('build', 'spawn')(callback)
 
-
-  watch('**/*.go', () => {
-    gulp.start('build')
-    golang.spawned().refresh()
+  watch('**/*.go', function () {
+		sequence('build', 'spawn')()
   });
 });
 

@@ -11,9 +11,10 @@ import (
 
 func main() {
 	port := 3000
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte("Hello World!"))
+		w.Write([]byte("cesco"))
 	})
 
 	l, err := net.Listen("tcp", ":"+strconv.Itoa(port))
@@ -25,7 +26,6 @@ func main() {
 	signal.Notify(ch, os.Interrupt, os.Kill)
 
 	go func() {
-		log.Println("cesco")
 		log.Println("starting server on port " + strconv.Itoa(port))
 		err := http.Serve(l, mux)
 		if err != nil {

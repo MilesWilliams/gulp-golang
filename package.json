@@ -22,7 +22,13 @@
   "homepage": "https://github.com/nowk/gulp-go",
   "devDependencies": {
     "chai": "^2.1.1",
+    "eslint": "^3.4.0",
+    "eslint-config-google": "^0.6.0",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
     "gulp": "^3.8.11",
+    "gulp-sequence": "^0.4.6",
     "mocha": "^2.1.0",
     "tree-kill": "^1.1.0"
   },
