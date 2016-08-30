@@ -13,7 +13,7 @@ Build a binary, either with `go build`or `go install` and run it with gulp.
 
 ## Install
 
-    npm install gulp-golang *not yet
+    npm install https://github.com/cescoferraro/gulp-golang
 
 ## Usage
 
