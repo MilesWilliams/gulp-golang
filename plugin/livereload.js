@@ -16,5 +16,6 @@ Livereload.prototype.reload = function () {
 };
 
 module.exports = {
-  Livereload: Livereload
+  Livereload: Livereload,
+  reload: Livereload.reload
 };

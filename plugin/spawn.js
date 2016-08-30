@@ -39,6 +39,9 @@ GoSpawn.prototype.spawn = function () {
     spawnLogs(proc)
     lock = true
     SpawnInstance = this
+
+
+    // require("./livereload").Livereload.reload()
     return addps(pid, this)
   }
 }

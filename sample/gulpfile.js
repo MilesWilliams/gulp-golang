@@ -4,18 +4,17 @@ var golang = require('../');
 var watch = require('gulp-watch');
 
 
-
-gulp.task('build', function () { golang.build('main.go',"../dist/dev/sample") });
-
+gulp.task('build', function () { golang.build('main.go', "sample") });
 gulp.task('spawn', function () { golang.spawn() })
+gulp.task('run', function (callback) { sequence('build', 'spawn')(callback) })
 
-
-gulp.task('watch', function (callback)  {
-    golang.livereload().listen()
-		sequence('build', 'spawn')(callback)
+gulp.task('watch', function (callback) {
+  golang.livereload().listen()
+  gulp.start('run')
 
   watch('**/*.go', function () {
-		sequence('build', 'spawn')()
+    gulp.start('run')
+    golang.livereload().reload()
   });
 });
 
