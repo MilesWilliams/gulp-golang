@@ -30,12 +30,12 @@
     "eslint-plugin-standard": "^2.0.0",
     "gulp": "^3.8.11",
     "gulp-sequence": "^0.4.6",
-    "mocha": "^2.1.0",
+    "mocha": "^2.1.0"
+  },
+  "dependencies": {
+    "ps-tree": "0.0.3",
     "tree-kill": "^1.1.0",
     "node-notifier": "^4.6.1",
     "gulp-livereload": "^3.8.1"
-  },
-  "dependencies": {
-    "ps-tree": "0.0.3"
   }
 }
